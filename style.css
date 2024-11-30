@@ -1,0 +1,147 @@
+* {
+    margin: 0;
+    padding: 0;
+    background-color: #f1faee;
+    font-family: "Rubik", sans-serif;
+}
+
+h1 {
+    height: 70px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+    font-size: 3rem;
+    color: #457b9d;
+}
+
+.pannel {
+    height: 20vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.main-container {
+    height: 10vh;
+    width: 45vw;
+    margin-left: 5px;
+    display: flex;
+    justify-content: center;
+    margin-top: 5%;
+}
+
+#input {
+    height: 70%;
+    width: 40vw;
+    background-color: white;
+    color: black;
+    padding-left: 10px;
+    font-size: 1rem;
+    border-radius: 10px;
+}
+
+#submit {
+    height: 40px;
+    width: 40px;
+    margin-left: 5px;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    background-color: #457b9d;
+    color: #f1faee;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+}
+
+#submit:hover {
+    cursor: pointer;
+    background-color: #1d3557;
+    transform: scale(1.1);
+}
+
+#submit:active {
+    background-color: #264653;
+    transform: scale(1);
+}
+
+.main-box {
+    height: 60vh;
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+}
+
+.contend-text {
+    height: 100%;
+    width: 45%;
+    display: flex;
+    flex-direction: column;
+}
+
+.text {
+    height: 10%;
+    width: 100%;
+    background-color: aliceblue;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 10px;
+    margin-bottom: 5px;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.box {
+    font-size: 1rem;
+    color: black;
+    background-color: aliceblue;
+}
+
+.text i {
+    margin-left: 10px;
+    font-size: 1.2rem;
+    color: #457b9d;
+    cursor: pointer;
+}
+
+.text i:hover {
+    color: #1d3557;
+}
+
+.text button {
+    margin-left: 10px;
+    padding: 5px 10px;
+    background-color: #457b9d;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+}
+
+.text button:hover {
+    background-color: #1d3557;
+}
+
+.text button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: gray;
+}
+
+.icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 30%;
+    background-color: transparent;
+}
+
+.icons button {
+    display: inline-block;
+}
