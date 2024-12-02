@@ -1,30 +1,39 @@
-let data = [];
+//content body 
 var contextBody = document.getElementsByClassName("contend-text")[0];
 
-function task(e) {
-    e.preventDefault();
-    addTask();
+
+// Constructor for creating a task object
+function ListData(itemValue) {
+    this.listText = itemValue;
+    this.id = Math.floor((Math.random() * 1000 + Number((new Date().getTime().toString()).slice(-4))));
+    this.complete = false;
 }
 
-function addTask() {
-    const dataInput = document.getElementById("input").value;
-    const text = dataInput.trim();
-    if (text) {
-        data.push({
-            task: text,
-            complete: false,
-        });
-    }
-    dataRender();
+
+// task function to save info to localStorage
+function saveData() {
+    localStorage.setItem('todo_items', JSON.stringify(todoData));
 }
 
+
+// ReadData Function to read tasks from localStorage
+function readData() {
+    return JSON.parse(localStorage.getItem('todo_items'));
+}
+
+
+//  use condition for previous data existing or not, then use empty array
+var todoData = (readData()) ? [...readData()] : [];
+
+
+// function to render the tasks on the interface
 function dataRender() {
-    contextBody.innerHTML = "";
-    for (let i = 0; i < data.length; i++) {
+    contextBody.innerHTML = ""; 
+    for (let i = 0; i < todoData.length; i++) { 
         contextBody.innerHTML += `
         <div class="text">
-            <p id="task-${i}" class="box ${data[i].complete ? 'completed' : ''}">${data[i].task}</p>
-            <input type="text" class="inpEdit" value="${data[i].task}" style="display: none;">
+            <p id="task-${i}" class="box ${todoData[i].complete ? 'completed' : ''}">${todoData[i].listText}</p>
+            <input type="text" class="inpEdit" value="${todoData[i].listText}" style="display: none;">
             <div class="icons">
                 <button class="edit-btn" onclick="editTask(${i})" style="display: inline-block;">Edit</button>
                 <button class="save-btn" onclick="saveTask(${i})" style="display: none;">Save</button>
@@ -35,15 +44,42 @@ function dataRender() {
     }
 }
 
-function editTask(index) {
-    const taskElement = document.getElementById(`task-${index}`);
-    const inputElement = taskElement.nextElementSibling;
-    const editButton = taskElement.nextElementSibling.nextElementSibling.children[0];
-    const saveButton = taskElement.nextElementSibling.nextElementSibling.children[1];
-    const completeButton = taskElement.nextElementSibling.nextElementSibling.children[2];
-    const deleteButton = taskElement.nextElementSibling.nextElementSibling.children[3];
 
-    // Show save button, hide others
+// Add task function
+function task(e) {
+    e.preventDefault();
+    addTask();
+}
+
+
+
+// Add a task to the todoData array
+function addTask() {
+    var dataInput = document.getElementById("input").value;
+    var text = dataInput;
+    if (text) {
+        var newTask = new ListData(text);
+        
+        // Add the new task to the todoData array
+        todoData = [...todoData, newTask];
+        
+        saveData();
+        dataRender();``
+    }
+}
+
+
+
+// Edit a task
+function editTask(index) {
+    var taskElement = document.getElementById(`task-${index}`);
+    var inputElement = taskElement.nextElementSibling;
+    var editButton = taskElement.nextElementSibling.nextElementSibling.children[0];
+    var saveButton = taskElement.nextElementSibling.nextElementSibling.children[1];
+    var completeButton = taskElement.nextElementSibling.nextElementSibling.children[2];
+    var deleteButton = taskElement.nextElementSibling.nextElementSibling.children[3];
+
+    // Showing save button, hide other buttons
     inputElement.style.display = 'block';
     taskElement.style.display = 'none';
     editButton.style.display = 'none';
@@ -52,17 +88,23 @@ function editTask(index) {
     deleteButton.style.display = 'none';
 }
 
+
+
+// Save the updated task
 function saveTask(index) {
-    const taskElement = document.getElementById(`task-${index}`);
-    const inputElement = taskElement.nextElementSibling;
-    const saveButton = taskElement.nextElementSibling.nextElementSibling.children[1];
-    const editButton = taskElement.nextElementSibling.nextElementSibling.children[0];
-    const completeButton = taskElement.nextElementSibling.nextElementSibling.children[2];
-    const deleteButton = taskElement.nextElementSibling.nextElementSibling.children[3];
+    var taskElement = document.getElementById(`task-${index}`);
+    var inputElement = taskElement.nextElementSibling;
+    var saveButton = taskElement.nextElementSibling.nextElementSibling.children[1];
+    var editButton = taskElement.nextElementSibling.nextElementSibling.children[0];
+    var completeButton = taskElement.nextElementSibling.nextElementSibling.children[2];
+    var deleteButton = taskElement.nextElementSibling.nextElementSibling.children[3];
 
-    const updatedValue = inputElement.value;
-    data[index].task = updatedValue;
-
+    var updatedValue = inputElement.value;
+    todoData[index].listText = updatedValue;
+    
+    saveData();
+    dataRender();
+    
     taskElement.innerText = updatedValue;
     inputElement.style.display = 'none';
     taskElement.style.display = 'block';
@@ -70,25 +112,33 @@ function saveTask(index) {
     saveButton.style.display = 'none';
     completeButton.style.display = 'inline-block';
     deleteButton.style.display = 'inline-block';
-    dataRender();
 }
 
+
+
+// Mark a task as complete
 function completeTask(index) {
-   
-    data[index].complete = true;
-    // Re-render the updated data
+    todoData[index].complete = true;
+    saveData();
     dataRender();
-    const taskElement = document.getElementById(`task-${index}`);
-    const buttonsContainer = taskElement.nextElementSibling.nextElementSibling; 
-    const editButton = buttonsContainer.children[0]; 
-    editButton.style.display="none";
-    const completeButton = buttonsContainer.children[2]; 
-    completeButton.style.display="none";
-    
+
+    var taskElement = document.getElementById(`task-${index}`);
+    var buttonsContainer = taskElement.nextElementSibling.nextElementSibling; 
+    var editButton = buttonsContainer.children[0]; 
+    editButton.style.display = "none";
+    var completeButton = buttonsContainer.children[2]; 
+    completeButton.style.display = "none";
 }
 
 
+
+// function Delete task
 function deleteTask(index) {
-    data.splice(index, 1);
+    todoData.splice(index, 1);
+    saveData();
     dataRender();
 }
+
+
+
+dataRender();
